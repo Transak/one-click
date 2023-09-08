@@ -9,13 +9,16 @@ contract TransakMulticallExecuter is Ownable, ReentrancyGuard, IERC721Receiver {
     event MulticallExecuted(address[] targets, bytes[] data);
     error CallFailed(address _target, bytes _data);
 
-    // multi call executer
-    function multiCall(address[] calldata targets, bytes[] calldata data)
-        external
-        onlyOwner
-        nonReentrant
-        returns (bytes[] memory)
-    {
+    /**
+     * @dev This function allows the contract to call multiple external contracts in one transaction.
+     * @param targets The addresses of the contracts to call.
+     * @param data The calldata to pass to each contract.
+     * @return results The results of each call.
+     */
+    function multiCall(
+        address[] calldata targets,
+        bytes[] calldata data
+    ) external onlyOwner nonReentrant returns (bytes[] memory) {
         require(targets.length != 0, "target length is 0");
         require(targets.length == data.length, "target length != data length");
 
