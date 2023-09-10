@@ -4,8 +4,16 @@
 ### TransakMulticallExecuter
 
 The contract to call multiple external contracts in one transaction.
+This Contract uses TransparentUpgradeableProxy.
 
 ## Functions
+
+### initialize
+
+```solidity
+    function initialize(address _owner) public initializer 
+```
+This function is called to initialize the contract
 
 ### multiCall
 
@@ -84,10 +92,8 @@ Error thrown when the call to the external contract fails.
 
 | Network          | Address                                                                                                                                             | Verified |
 | ---------------- | --------------------------------------------------------------------------------------------------------------------------------------------------- | -------- |
-| Goerli           | `0x5d5D2247A662cEE0F775488B154617376b9925c1` https://goerli.etherscan.io/address/0x5d5D2247A662cEE0F775488B154617376b9925c1#code                    | true     |
+| Goerli           | Contract `0x53F9a8F282ee39169CDB0851aA768c35A72Fe0e9` Proxy: `0xe4E30Bcb733cE466a768E924FF0E458118A2555C` https://goerli.etherscan.io/address/0x53F9a8F282ee39169CDB0851aA768c35A72Fe0e9#code                    | true     |
 | Immutable ZK Evm | `0x962D7be55A4d39b61c04Cf5ADe72D8eE275A7bCB` https://explorer.testnet.immutable.com/address/0x962D7be55A4d39b61c04Cf5ADe72D8eE275A7bCB?tab=contract | false    |
 
 
 
-
-TODO: Implement Proxy Upgradeable Pattern

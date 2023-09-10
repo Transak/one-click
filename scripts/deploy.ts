@@ -1,14 +1,21 @@
-import { ethers } from "hardhat";
+import { ethers, upgrades } from "hardhat";
 
 async function main() {
-  const transakMulticallExecuter = await ethers.deployContract(
+  const TransakMulticallExecuter = await ethers.getContractFactory(
     "TransakMulticallExecuter"
+  );
+
+  const transakMulticallExecuter = await upgrades.deployProxy(
+    TransakMulticallExecuter,
+    {
+      initializer: "initialize",
+    }
   );
 
   await transakMulticallExecuter.waitForDeployment();
 
   console.log(
-    `TransakMulticallExecuter deployed to ${transakMulticallExecuter.target}`
+    `TransakMulticallExecuter deployed to ${await transakMulticallExecuter.getAddress()}`
   );
 }
 
