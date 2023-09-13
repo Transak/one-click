@@ -8,7 +8,9 @@
   "scripts": {
     "compile": "hardhat compile",
     "flatten": "hardhat flatten ./contracts/TransakMulticallExecuter.sol > flatten/flattenedTransakMulticallExecuter.sol",
-    "deploy": "hardhat run --network imxzkevm scripts/deploy.ts"
+    "deploy": "hardhat run --network goerli scripts/deploy.ts",
+    "upgrade": "hardhat run --network goerli scripts/upgrade.ts",
+    "verify": "hardhat verify --network goerli 0xe4E30Bcb733cE466a768E924FF0E458118A2555C"
   },
   "devDependencies": {
     "@nomicfoundation/hardhat-chai-matchers": "^2.0.0",
@@ -33,6 +35,7 @@
   },
   "dependencies": {
     "@openzeppelin/contracts": "^4.9.3",
+    "@openzeppelin/contracts-upgradeable": "^4.9.3",
     "dotenv": "^16.3.1"
   }
 }

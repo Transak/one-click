@@ -1,13 +1,25 @@
 // SPDX-License-Identifier: MIT
 pragma solidity 0.8.19;
 
-import "@openzeppelin/contracts/access/Ownable.sol";
-import "@openzeppelin/contracts/security/ReentrancyGuard.sol";
+import "@openzeppelin/contracts-upgradeable/access/OwnableUpgradeable.sol";
+import "@openzeppelin/contracts-upgradeable/proxy/utils/Initializable.sol";
+
+import "@openzeppelin/contracts-upgradeable/security/ReentrancyGuardUpgradeable.sol";
 import "@openzeppelin/contracts/token/ERC721/IERC721Receiver.sol";
 
-contract TransakMulticallExecuter is Ownable, ReentrancyGuard, IERC721Receiver {
+contract TransakMulticallExecuter is
+    OwnableUpgradeable,
+    ReentrancyGuardUpgradeable,
+    IERC721Receiver
+{
     event MulticallExecuted(address[] targets, bytes[] data);
     error CallFailed(address _target, bytes _data);
+
+    // @dev This function is called to initialize the contract
+    function initialize() public initializer {
+        __Ownable_init();
+        __ReentrancyGuard_init();
+    }
 
     /**
      * @dev This function allows the contract to call multiple external contracts in one transaction.
