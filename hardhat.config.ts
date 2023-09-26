@@ -16,6 +16,22 @@ const config: HardhatUserConfig = {
       url: process.env.RPC_GOERLI,
       accounts: [process.env.PRIVATE_KEY as string],
     },
+    polygon_mumbai: {
+      url: "https://rpc-mumbai.maticvigil.com",
+      accounts: [process.env.PRIVATE_KEY as string],
+    },
+    bnb: {
+      url: "https://endpoints.omniatech.io/v1/bsc/testnet/public",
+      accounts: [process.env.PRIVATE_KEY as string],
+    },
+    arbitrum_goerli: {
+      url: "https://endpoints.omniatech.io/v1/arbitrum/goerli/public",
+      accounts: [process.env.PRIVATE_KEY as string],
+    },
+    optimism_goerli: {
+      url: "https://optimism-goerli.publicnode.com",
+      accounts: [process.env.PRIVATE_KEY as string],
+    },
   },
   etherscan: {
     apiKey: process.env.ETHERSCAN_API,
