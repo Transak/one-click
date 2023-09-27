@@ -21,6 +21,11 @@ contract TransakMulticallExecuter is
         __ReentrancyGuard_init();
     }
 
+    /// @custom:oz-upgrades-unsafe-allow constructor
+    constructor() {
+        _disableInitializers();
+    }
+
     /**
      * @dev This function allows the contract to call multiple external contracts in one transaction.
      * @param targets The addresses of the contracts to call.
