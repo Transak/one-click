@@ -9,8 +9,10 @@ const config: HardhatUserConfig = {
   networks: {
     hardhat: {},
     imxzkevm: {
-      url: process.env.RPC_IMX,
+      url: "https://rpc.testnet.immutable.com",
       accounts: [process.env.PRIVATE_KEY as string],
+      gasPrice: 100000000000 ,
+      
     },
     goerli: {
       url: process.env.RPC_GOERLI,
@@ -24,14 +26,27 @@ const config: HardhatUserConfig = {
       url: "https://endpoints.omniatech.io/v1/bsc/testnet/public",
       accounts: [process.env.PRIVATE_KEY as string],
     },
-    arbitrum_goerli: {
-      url: "https://endpoints.omniatech.io/v1/arbitrum/goerli/public",
+    arbitrum_sepolia: {
+      url: "https://sepolia-rollup.arbitrum.io/rpc",
       accounts: [process.env.PRIVATE_KEY as string],
     },
     optimism_goerli: {
       url: "https://optimism-goerli.publicnode.com",
       accounts: [process.env.PRIVATE_KEY as string],
     },
+    eth_mainnet: {
+      url: "https://ethereum.publicnode.com",
+      accounts: [process.env.PRIVATE_KEY as string],
+    },
+    polygon_mainnet: {
+      url: "https://endpoints.omniatech.io/v1/matic/mainnet/public",
+      accounts: [process.env.PRIVATE_KEY as string],
+    },
+    sepolia: {
+      url: "https://ethereum-sepolia.publicnode.com",
+      accounts: [process.env.PRIVATE_KEY as string],
+
+    }
   },
   etherscan: {
     apiKey: process.env.ETHERSCAN_API,
