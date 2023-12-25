@@ -19,7 +19,7 @@ const config: HardhatUserConfig = {
       accounts: [process.env.PRIVATE_KEY as string],
     },
     polygon_mumbai: {
-      url: "https://rpc-mumbai.maticvigil.com",
+      url: "https://polygon-mumbai-pokt.nodies.app",
       accounts: [process.env.PRIVATE_KEY as string],
     },
     bnb: {
@@ -43,7 +43,7 @@ const config: HardhatUserConfig = {
       accounts: [process.env.PRIVATE_KEY as string],
     },
     sepolia: {
-      url: "https://ethereum-sepolia.publicnode.com",
+      url: "https://endpoints.omniatech.io/v1/eth/sepolia/public",
       accounts: [process.env.PRIVATE_KEY as string],
 
     }
