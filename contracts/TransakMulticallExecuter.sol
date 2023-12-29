@@ -46,7 +46,7 @@ contract TransakMulticallExecuter is
         uint256[] calldata value
     ) external payable onlyOwner nonReentrant returns (bytes[] memory) {
         require(
-            reduce(value) >= msg.value,
+            reduce(value) <= msg.value,
             "msg.value should be greater than sum of value[]"
         );
 
@@ -75,10 +75,27 @@ contract TransakMulticallExecuter is
         return results;
     }
 
+    /**
+     * @dev This function is a fallback function that is called when the contract receives Ether without any other data.
+     * It emits an event `NativeTokenReceived` with the sender's address and the value of Ether received.
+     * The function is marked as `external`, meaning it can only be called from other contracts or transactions, and `payable`,
+     * which allows it to receive Ether.
+     *
+     * @notice Any Ether sent to the contract will be received by this function and an event will be emitted.
+     */
     receive() external payable {
         emit NativeTokenReceived(msg.sender, msg.value);
     }
 
+    /**
+     * @dev This function checks if the contract supports a specific interface.
+     * It takes an interface ID as a parameter and checks if it matches any of the supported interface IDs.
+     * The function is marked as `external`, meaning it can only be called from other contracts or transactions, and `pure`,
+     * which means it does not read from or write to the blockchain state.
+     *
+     * @param interfaceId The ID of the interface to check.
+     * @return A boolean indicating whether the contract supports the given interface.
+     */
     function supportsInterface(
         bytes4 interfaceId
     ) external pure returns (bool) {
@@ -144,7 +161,15 @@ contract TransakMulticallExecuter is
         return this.onERC1155BatchReceived.selector;
     }
 
-    // utils
+    /**
+     * @dev This function takes an array of unsigned integers as input and returns their sum.
+     * It iterates over each element in the array and adds it to the result.
+     * The function is marked as `internal`, meaning it can only be called from this contract or contracts that inherit from it.
+     * It is also marked as `pure` because it does not read from or write to the blockchain state.
+     *
+     * @param arr An array of unsigned integers.
+     * @return result The sum of all elements in the input array.
+     */
     function reduce(
         uint256[] memory arr
     ) internal pure returns (uint256 result) {
