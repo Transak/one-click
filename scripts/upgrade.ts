@@ -1,7 +1,7 @@
 const { ethers, upgrades } = require("hardhat");
 
 async function main() {
-  const PROXY_ADDRESS = "0xe4E30Bcb733cE466a768E924FF0E458118A2555C";
+  const PROXY_ADDRESS = "0x08217aa0394c637013f0b4fbc3a29e44c67062e7";
 
   const TransakMulticallExecuter = await ethers.getContractFactory(
     "TransakMulticallExecuter"

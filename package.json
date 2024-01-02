@@ -7,10 +7,10 @@
   "license": "MIT",
   "scripts": {
     "compile": "hardhat compile",
-    "flatten": "hardhat flatten ./contracts/TransakMulticallExecuter.sol > flatten/flattenedTransakMulticallExecuter.sol",
-    "deploy": "hardhat run --network goerli scripts/deploy.ts",
-    "upgrade": "hardhat run --network goerli scripts/upgrade.ts",
-    "verify": "hardhat verify --network goerli 0xe4E30Bcb733cE466a768E924FF0E458118A2555C"
+    "flatten": "hardhat flatten ./contracts/TransakMulticallExecuterV2.sol > flatten/flattenedTransakMulticallExecuter.sol",
+    "deploy": "hardhat run --network sepolia scripts/deploy.ts --verbose",
+    "upgrade": "hardhat run --network sepolia scripts/upgrade.ts",
+    "verify": "hardhat verify --network sepolia 0xB20D3271769A0CCFAe255F2456F3163668144B53 "
   },
   "devDependencies": {
     "@nomicfoundation/hardhat-chai-matchers": "^2.0.0",
