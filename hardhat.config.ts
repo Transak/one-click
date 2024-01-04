@@ -43,7 +43,7 @@ const config: HardhatUserConfig = {
       accounts: [process.env.PRIVATE_KEY as string],
     },
     sepolia: {
-      url: "https://endpoints.omniatech.io/v1/eth/sepolia/public",
+      url: "https://rpc.sepolia.org",
       accounts: [process.env.PRIVATE_KEY as string],
 
     }
