@@ -8,9 +8,9 @@
   "scripts": {
     "compile": "hardhat compile",
     "flatten": "hardhat flatten ./contracts/TransakMulticallExecuter.sol > flatten/flattenedTransakMulticallExecuter.sol",
-    "deploy": "hardhat run --network imxzkevm scripts/deploy.ts",
-    "upgrade": "hardhat run --network imxzkevm scripts/upgrade.ts",
-    "verify": "hardhat verify --network imxzkevm 0x489F56e3144FF03A887305839bBCD20FF767d3d1 "
+    "deploy": "hardhat run --network polygon_mainnet scripts/deploy.ts",
+    "upgrade": "hardhat run --network polygon_mainnet scripts/upgrade.ts",
+    "verify": "hardhat verify --network polygon_mainnet 0x4A598B7eC77b1562AD0dF7dc64a162695cE4c78A "
   },
   "devDependencies": {
     "@nomicfoundation/hardhat-chai-matchers": "^2.0.0",
@@ -26,7 +26,7 @@
     "@types/node": ">=16.0.0",
     "chai": "^4.2.0",
     "ethers": "^6.4.0",
-    "hardhat": "^2.17.2",
+    "hardhat": "^2.19.4",
     "hardhat-gas-reporter": "^1.0.8",
     "solidity-coverage": "^0.8.0",
     "ts-node": ">=8.0.0",
