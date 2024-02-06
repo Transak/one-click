@@ -9,6 +9,7 @@ async function main() {
     TransakMulticallExecuter,
     {
       initializer: "initialize",
+      redeployImplementation: "always",
     }
   );
 
