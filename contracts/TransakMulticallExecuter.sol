@@ -36,7 +36,7 @@ contract TransakMulticallExecuter is
      * @dev Initializes the contract by setting up ownership and reentrancy guard
      */
     function initialize() public initializer {
-        __Ownable_init();
+        __Ownable2Step_init();
         __ReentrancyGuard_init();
     }
 
@@ -151,7 +151,7 @@ contract TransakMulticallExecuter is
         uint256,
         uint256,
         bytes calldata
-    ) external pure override returns (bytes4) {
+    ) external pure returns (bytes4) {
         return IERC1155Receiver.onERC1155Received.selector;
     }
 
@@ -170,7 +170,7 @@ contract TransakMulticallExecuter is
         uint256[] calldata,
         uint256[] calldata,
         bytes calldata
-    ) external pure override returns (bytes4) {
+    ) external pure returns (bytes4) {
         return IERC1155Receiver.onERC1155BatchReceived.selector;
     }
 
