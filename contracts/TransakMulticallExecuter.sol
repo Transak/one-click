@@ -1,31 +1,42 @@
 // SPDX-License-Identifier: MIT
 pragma solidity 0.8.19;
 
-import "@openzeppelin/contracts-upgradeable/access/OwnableUpgradeable.sol";
+// Importing required OpenZeppelin contracts
+import "@openzeppelin/contracts-upgradeable/access/Ownable2StepUpgradeable.sol";
 import "@openzeppelin/contracts-upgradeable/proxy/utils/Initializable.sol";
-
 import "@openzeppelin/contracts-upgradeable/security/ReentrancyGuardUpgradeable.sol";
 import "@openzeppelin/contracts/token/ERC721/IERC721Receiver.sol";
 import "@openzeppelin/contracts/token/ERC1155/IERC1155Receiver.sol";
 
+/**
+ * @title TransakMulticallExecuter
+ * @dev This contract allows to execute multiple calls in a single transaction and handles ERC721 and ERC1155 tokens.
+ */
 contract TransakMulticallExecuter is
-    OwnableUpgradeable,
+    Ownable2StepUpgradeable,
     ReentrancyGuardUpgradeable,
     IERC721Receiver,
     IERC1155Receiver
 {
+
+   // Interface IDs for ERC165, ERC721 and ERC1155
     bytes4 public constant ERC165_INTERFACE_ID = 0x01ffc9a7;
     bytes4 public constant ERC721_TOKENRECEIVER_INTERFACE_ID = 0x150b7a02;
     bytes4 public constant ERC1155_TOKENRECEIVER_INTERFACE_ID = 0x4e2312e0;
 
+    // Events emitted
     event MulticallExecuted(address[] targets, bytes[] data);
     event NativeTokenReceived(address, uint256);
 
+    // Custom error to be thrown when a call fails
     error CallFailed(address _target, bytes _data);
+    error CallFailedWithReason(address _target, bytes _data, string _reason);
 
-    // @dev This function is called to initialize the contract
+    /**
+     * @dev Initializes the contract by setting up ownership and reentrancy guard
+     */
     function initialize() public initializer {
-        __Ownable_init();
+        __Ownable2Step_init();
         __ReentrancyGuard_init();
     }
 
@@ -38,6 +49,7 @@ contract TransakMulticallExecuter is
      * @dev This function allows the contract to call multiple external contracts in one transaction.
      * @param targets The addresses of the contracts to call.
      * @param data The calldata to pass to each contract.
+     * @param value The amount of Ether to send to each contract.
      * @return results The results of each call.
      */
     function multiCall(
@@ -45,17 +57,16 @@ contract TransakMulticallExecuter is
         bytes[] calldata data,
         uint256[] calldata value
     ) external payable onlyOwner nonReentrant returns (bytes[] memory) {
-        require(
-            reduce(value) <= msg.value,
-            "msg.value should be greater than sum of value[]"
-        );
-
+        require(reduce(value) <= msg.value,"msg.value should be greater than sum of value[]");
         require(targets.length != 0, "target length is 0");
         require(targets.length == data.length, "target length != data length");
+        require(targets.length == value.length, "target length != value length");
+
 
         bytes[] memory results = new bytes[](data.length);
 
         for (uint256 i; i < targets.length; i++) {
+            require(targets[i].code.length > 0 || data[i].length == 0, "target account is not a valid contract.if EOA data must be empty");
             (bool success, bytes memory result) = targets[i].call{
                 value: value[i]
             }(data[i]);
@@ -64,9 +75,11 @@ contract TransakMulticallExecuter is
                 if (result.length == 0) {
                     revert CallFailed(targets[i], data[i]);
                 }
+                
                 assembly {
-                    revert(add(result, 32), mload(result))
+                       result := add(result, 0x04)
                 }
+                revert CallFailedWithReason(targets[i], data[i],abi.decode(result,(string)));
             }
             results[i] = result;
         }
@@ -94,7 +107,7 @@ contract TransakMulticallExecuter is
      * which means it does not read from or write to the blockchain state.
      *
      * @param interfaceId The ID of the interface to check.
-     * @return A boolean indicating whether the contract supports the given interface.
+     * @return _ A boolean indicating whether the contract supports the given interface.
      */
     function supportsInterface(
         bytes4 interfaceId
@@ -138,8 +151,8 @@ contract TransakMulticallExecuter is
         uint256,
         uint256,
         bytes calldata
-    ) external pure override returns (bytes4) {
-        return this.onERC1155Received.selector;
+    ) external pure returns (bytes4) {
+        return IERC1155Receiver.onERC1155Received.selector;
     }
 
     /**
@@ -157,8 +170,16 @@ contract TransakMulticallExecuter is
         uint256[] calldata,
         uint256[] calldata,
         bytes calldata
-    ) external pure override returns (bytes4) {
-        return this.onERC1155BatchReceived.selector;
+    ) external pure returns (bytes4) {
+        return IERC1155Receiver.onERC1155BatchReceived.selector;
+    }
+
+    /**
+     * @dev This function allows the contract owner to withdraw all Ether from the contract.
+     */
+    function withdrawEther() external onlyOwner {
+        // Transfer the contract's Ether balance to the owner's address
+        payable(msg.sender).transfer(address(this).balance);
     }
 
     /**
