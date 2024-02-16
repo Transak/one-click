@@ -7,18 +7,18 @@
   "license": "MIT",
   "scripts": {
     "compile": "hardhat compile",
-    "flatten": "hardhat flatten ./contracts/TransakMulticallExecuterV2.sol > flatten/flattenedTransakMulticallExecuter.sol",
-    "deploy": "hardhat run --network sepolia scripts/deploy.ts --verbose",
-    "upgrade": "hardhat run --network sepolia scripts/upgrade.ts",
-    "verify": "hardhat verify --network sepolia 0xB20D3271769A0CCFAe255F2456F3163668144B53 "
+    "flatten": "hardhat flatten ./contracts/TransakMulticallExecuter.sol > flatten/flattenedTransakMulticallExecuter.sol",
+    "deploy": "hardhat run --network polygon_mainnet scripts/deploy.ts",
+    "upgrade": "hardhat run --network polygon_mainnet scripts/upgrade.ts",
+    "verify": "hardhat verify --network polygon_mainnet 0x4A598B7eC77b1562AD0dF7dc64a162695cE4c78A "
   },
   "devDependencies": {
     "@nomicfoundation/hardhat-chai-matchers": "^2.0.0",
     "@nomicfoundation/hardhat-ethers": "^3.0.0",
     "@nomicfoundation/hardhat-network-helpers": "^1.0.0",
     "@nomicfoundation/hardhat-toolbox": "^3.0.0",
-    "@nomicfoundation/hardhat-verify": "^1.0.0",
-    "@openzeppelin/hardhat-upgrades": "^2.2.1",
+    "@nomicfoundation/hardhat-verify": "^2.0.3",
+    "@openzeppelin/hardhat-upgrades": "^3.0.1",
     "@typechain/ethers-v6": "^0.4.0",
     "@typechain/hardhat": "^8.0.0",
     "@types/chai": "^4.2.0",
@@ -26,7 +26,7 @@
     "@types/node": ">=16.0.0",
     "chai": "^4.2.0",
     "ethers": "^6.4.0",
-    "hardhat": "^2.17.2",
+    "hardhat": "^2.19.4",
     "hardhat-gas-reporter": "^1.0.8",
     "solidity-coverage": "^0.8.0",
     "ts-node": ">=8.0.0",
