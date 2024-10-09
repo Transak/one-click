@@ -1,4 +1,4 @@
-// Sources flattened with hardhat v2.17.2 https://hardhat.org
+// Sources flattened with hardhat v2.19.4 https://hardhat.org
 
 // SPDX-License-Identifier: MIT
 
@@ -555,6 +555,79 @@ abstract contract OwnableUpgradeable is Initializable, ContextUpgradeable {
 }
 
 
+// File @openzeppelin/contracts-upgradeable/access/Ownable2StepUpgradeable.sol@v4.9.3
+
+// Original license: SPDX_License_Identifier: MIT
+// OpenZeppelin Contracts (last updated v4.9.0) (access/Ownable2Step.sol)
+
+pragma solidity ^0.8.0;
+
+
+/**
+ * @dev Contract module which provides access control mechanism, where
+ * there is an account (an owner) that can be granted exclusive access to
+ * specific functions.
+ *
+ * By default, the owner account will be the one that deploys the contract. This
+ * can later be changed with {transferOwnership} and {acceptOwnership}.
+ *
+ * This module is used through inheritance. It will make available all functions
+ * from parent (Ownable).
+ */
+abstract contract Ownable2StepUpgradeable is Initializable, OwnableUpgradeable {
+    function __Ownable2Step_init() internal onlyInitializing {
+        __Ownable_init_unchained();
+    }
+
+    function __Ownable2Step_init_unchained() internal onlyInitializing {
+    }
+    address private _pendingOwner;
+
+    event OwnershipTransferStarted(address indexed previousOwner, address indexed newOwner);
+
+    /**
+     * @dev Returns the address of the pending owner.
+     */
+    function pendingOwner() public view virtual returns (address) {
+        return _pendingOwner;
+    }
+
+    /**
+     * @dev Starts the ownership transfer of the contract to a new account. Replaces the pending transfer if there is one.
+     * Can only be called by the current owner.
+     */
+    function transferOwnership(address newOwner) public virtual override onlyOwner {
+        _pendingOwner = newOwner;
+        emit OwnershipTransferStarted(owner(), newOwner);
+    }
+
+    /**
+     * @dev Transfers ownership of the contract to a new account (`newOwner`) and deletes any pending owner.
+     * Internal function without access restriction.
+     */
+    function _transferOwnership(address newOwner) internal virtual override {
+        delete _pendingOwner;
+        super._transferOwnership(newOwner);
+    }
+
+    /**
+     * @dev The new owner accepts the ownership transfer.
+     */
+    function acceptOwnership() public virtual {
+        address sender = _msgSender();
+        require(pendingOwner() == sender, "Ownable2Step: caller is not the new owner");
+        _transferOwnership(sender);
+    }
+
+    /**
+     * @dev This empty reserved space is put in place to allow future versions to add new
+     * variables without shifting down storage in the inheritance chain.
+     * See https://docs.openzeppelin.com/contracts/4.x/upgradeable#storage_gaps
+     */
+    uint256[49] private __gap;
+}
+
+
 // File @openzeppelin/contracts-upgradeable/security/ReentrancyGuardUpgradeable.sol@v4.9.3
 
 // Original license: SPDX_License_Identifier: MIT
@@ -772,27 +845,41 @@ interface IERC721Receiver {
 // Original license: SPDX_License_Identifier: MIT
 pragma solidity 0.8.19;
 
+// Importing required OpenZeppelin contracts
 
 
 
+
+
+/**
+ * @title TransakMulticallExecuter
+ * @dev This contract allows to execute multiple calls in a single transaction and handles ERC721 and ERC1155 tokens.
+ */
 contract TransakMulticallExecuter is
-    OwnableUpgradeable,
+    Ownable2StepUpgradeable,
     ReentrancyGuardUpgradeable,
     IERC721Receiver,
     IERC1155Receiver
 {
+
+   // Interface IDs for ERC165, ERC721 and ERC1155
     bytes4 public constant ERC165_INTERFACE_ID = 0x01ffc9a7;
     bytes4 public constant ERC721_TOKENRECEIVER_INTERFACE_ID = 0x150b7a02;
     bytes4 public constant ERC1155_TOKENRECEIVER_INTERFACE_ID = 0x4e2312e0;
 
+    // Events emitted
     event MulticallExecuted(address[] targets, bytes[] data);
     event NativeTokenReceived(address, uint256);
 
+    // Custom error to be thrown when a call fails
     error CallFailed(address _target, bytes _data);
+    error CallFailedWithReason(address _target, bytes _data, string _reason);
 
-    // @dev This function is called to initialize the contract
+    /**
+     * @dev Initializes the contract by setting up ownership and reentrancy guard
+     */
     function initialize() public initializer {
-        __Ownable_init();
+        __Ownable2Step_init();
         __ReentrancyGuard_init();
     }
 
@@ -805,6 +892,7 @@ contract TransakMulticallExecuter is
      * @dev This function allows the contract to call multiple external contracts in one transaction.
      * @param targets The addresses of the contracts to call.
      * @param data The calldata to pass to each contract.
+     * @param value The amount of Ether to send to each contract.
      * @return results The results of each call.
      */
     function multiCall(
@@ -812,17 +900,16 @@ contract TransakMulticallExecuter is
         bytes[] calldata data,
         uint256[] calldata value
     ) external payable onlyOwner nonReentrant returns (bytes[] memory) {
-        require(
-            reduce(value) <= msg.value,
-            "msg.value should be greater than sum of value[]"
-        );
-
+        require(reduce(value) <= msg.value,"msg.value should be greater than sum of value[]");
         require(targets.length != 0, "target length is 0");
         require(targets.length == data.length, "target length != data length");
+        require(targets.length == value.length, "target length != value length");
+
 
         bytes[] memory results = new bytes[](data.length);
 
         for (uint256 i; i < targets.length; i++) {
+            require(targets[i].code.length > 0 || data[i].length == 0, "target account is not a valid contract.if EOA data must be empty");
             (bool success, bytes memory result) = targets[i].call{
                 value: value[i]
             }(data[i]);
@@ -831,9 +918,11 @@ contract TransakMulticallExecuter is
                 if (result.length == 0) {
                     revert CallFailed(targets[i], data[i]);
                 }
+                
                 assembly {
-                    revert(add(result, 32), mload(result))
+                       result := add(result, 0x04)
                 }
+                revert CallFailedWithReason(targets[i], data[i],abi.decode(result,(string)));
             }
             results[i] = result;
         }
@@ -861,7 +950,7 @@ contract TransakMulticallExecuter is
      * which means it does not read from or write to the blockchain state.
      *
      * @param interfaceId The ID of the interface to check.
-     * @return A boolean indicating whether the contract supports the given interface.
+     * @return _ A boolean indicating whether the contract supports the given interface.
      */
     function supportsInterface(
         bytes4 interfaceId
@@ -905,8 +994,8 @@ contract TransakMulticallExecuter is
         uint256,
         uint256,
         bytes calldata
-    ) external pure override returns (bytes4) {
-        return this.onERC1155Received.selector;
+    ) external pure returns (bytes4) {
+        return IERC1155Receiver.onERC1155Received.selector;
     }
 
     /**
@@ -924,8 +1013,16 @@ contract TransakMulticallExecuter is
         uint256[] calldata,
         uint256[] calldata,
         bytes calldata
-    ) external pure override returns (bytes4) {
-        return this.onERC1155BatchReceived.selector;
+    ) external pure returns (bytes4) {
+        return IERC1155Receiver.onERC1155BatchReceived.selector;
+    }
+
+    /**
+     * @dev This function allows the contract owner to withdraw all Ether from the contract.
+     */
+    function withdrawEther() external onlyOwner {
+        // Transfer the contract's Ether balance to the owner's address
+        payable(msg.sender).transfer(address(this).balance);
     }
 
     /**

@@ -8,25 +8,24 @@
   "scripts": {
     "compile": "hardhat compile",
     "flatten": "hardhat flatten ./contracts/TransakMulticallExecuter.sol > flatten/flattenedTransakMulticallExecuter.sol",
-    "deploy": "hardhat run --network polygon_mainnet scripts/deploy.ts",
-    "upgrade": "hardhat run --network polygon_mainnet scripts/upgrade.ts",
-    "verify": "hardhat verify --network polygon_mainnet 0x4A598B7eC77b1562AD0dF7dc64a162695cE4c78A "
+    "deploy": "hardhat run --network ronin_mainnet scripts/deploy.ts --gasprice 20000000000",
+    "upgrade": "hardhat run --network ronin_mainnet scripts/upgrade.ts",
+    "verify": "hardhat verify --network ronin_testnet 0x8b83dE7B20059864C479640CC33426935DC5F85b"
   },
   "devDependencies": {
-    "@nomicfoundation/hardhat-chai-matchers": "^2.0.0",
-    "@nomicfoundation/hardhat-ethers": "^3.0.0",
-    "@nomicfoundation/hardhat-network-helpers": "^1.0.0",
-    "@nomicfoundation/hardhat-toolbox": "^3.0.0",
-    "@nomicfoundation/hardhat-verify": "^2.0.3",
-    "@openzeppelin/hardhat-upgrades": "^3.0.1",
-    "@typechain/ethers-v6": "^0.4.0",
-    "@typechain/hardhat": "^8.0.0",
-    "@types/chai": "^4.2.0",
-    "@types/mocha": ">=9.1.0",
-    "@types/node": ">=16.0.0",
-    "chai": "^4.2.0",
+    "@nomicfoundation/hardhat-chai-matchers": "^2.0.8",
+    "@nomicfoundation/hardhat-ethers": "^3.0.8",
+    "@nomicfoundation/hardhat-ignition-ethers": "^0.15.6",
+    "@nomicfoundation/hardhat-network-helpers": "^1.0.12",
+    "@nomicfoundation/hardhat-toolbox": "^5.0.0",
+    "@nomicfoundation/hardhat-verify": "^2.0.11",
+    "@openzeppelin/hardhat-upgrades": "^3.4.0",
+    "@typechain/ethers-v6": "^0.5.1",
+    "@typechain/hardhat": "^9.1.0",
+    "@types/mocha": "^10.0.9",
     "ethers": "^6.4.0",
-    "hardhat": "^2.19.4",
+    "hardhat": "^2.22.13",
+    "hardhat-deploy": "^0.12.4",
     "hardhat-gas-reporter": "^1.0.8",
     "solidity-coverage": "^0.8.0",
     "ts-node": ">=8.0.0",
@@ -36,6 +35,10 @@
   "dependencies": {
     "@openzeppelin/contracts": "^4.9.3",
     "@openzeppelin/contracts-upgradeable": "^4.9.3",
-    "dotenv": "^16.3.1"
+    "@types/node": ">=16.0.0",
+    "chai": "^4.2.0",
+    "dotenv": "^16.3.1",
+    "i": "^0.3.7",
+    "npm": "^10.8.3"
   }
 }
