@@ -1,17 +1,21 @@
 {
   "manifestVersion": "3.2",
-  "admin": {
-    "address": "0x489F56e3144FF03A887305839bBCD20FF767d3d1"
-  },
   "proxies": [
     {
-      "address": "0xD84aC4716A082B1F7eCDe9301aA91A7c4B62ECd7",
+      "address": "0x8b83dE7B20059864C479640CC33426935DC5F85b",
+      "txHash": "0xcd9ea436ad1eb1374dfe236e073d3e55f71f9c71aceff6c7015f72a537ae4df1",
+      "kind": "transparent"
+    },
+    {
+      "address": "0xAb88cd272863b197B48762EA283f24a13f6586Dd",
+      "txHash": "0x87dd6dfb23ff4a84cbf83cda681035ad7fb5300aae3c3839d1148581bf609fb3",
       "kind": "transparent"
     }
   ],
   "impls": {
-    "1f43edb189ca420ac3f206fa0ca7ccc354e6d538c59b75bc5ca53131f6f2a2bb": {
-      "address": "0xCB9bD5aCD627e8FcCf9EB8d4ba72AEb1Cd8Ff5EF",
+    "92bd192e6ee5df3769c1bee27b5f831ebc4b457fe1d5ba582dd65279a7eae261": {
+      "address": "0xed81ECDeadB9612116f179ffA97975a6DaD84b1B",
+      "txHash": "0x6e19d089817d8d6cf878a2a8e17b32d5545eba1b795bf130cbc1de5adca71727",
       "layout": {
         "solcVersion": "0.8.19",
         "storage": [
@@ -98,12 +102,13 @@
             "label": "uint8",
             "numberOfBytes": "1"
           }
-        }
+        },
+        "namespaces": {}
       }
     },
-    "92bd192e6ee5df3769c1bee27b5f831ebc4b457fe1d5ba582dd65279a7eae261": {
-      "address": "0xC05D34B7adF88167CA280BF33A5C20C2D54a148b",
-      "txHash": "0x2f46954a3f5e650b9768f9e211b148d40accf1a69007899e0bbc6bad3ba02577",
+    "35698bf2fa2e4e9af7aeb594d91900748fe9c519149480117bc47b19eb402303": {
+      "address": "0x6B1D3E2D76f4e8Cec9A818b93ACB2CfC1F74A627",
+      "txHash": "0x277c5701d234ea3c723d4452343a9954389179b42cd8c49c46636afe14bebb8f",
       "layout": {
         "solcVersion": "0.8.19",
         "storage": [
@@ -149,9 +154,25 @@
             "src": "@openzeppelin/contracts-upgradeable/access/OwnableUpgradeable.sol:94"
           },
           {
-            "label": "_status",
+            "label": "_pendingOwner",
             "offset": 0,
             "slot": "101",
+            "type": "t_address",
+            "contract": "Ownable2StepUpgradeable",
+            "src": "@openzeppelin/contracts-upgradeable/access/Ownable2StepUpgradeable.sol:27"
+          },
+          {
+            "label": "__gap",
+            "offset": 0,
+            "slot": "102",
+            "type": "t_array(t_uint256)49_storage",
+            "contract": "Ownable2StepUpgradeable",
+            "src": "@openzeppelin/contracts-upgradeable/access/Ownable2StepUpgradeable.sol:70"
+          },
+          {
+            "label": "_status",
+            "offset": 0,
+            "slot": "151",
             "type": "t_uint256",
             "contract": "ReentrancyGuardUpgradeable",
             "src": "@openzeppelin/contracts-upgradeable/security/ReentrancyGuardUpgradeable.sol:38"
@@ -159,7 +180,7 @@
           {
             "label": "__gap",
             "offset": 0,
-            "slot": "102",
+            "slot": "152",
             "type": "t_array(t_uint256)49_storage",
             "contract": "ReentrancyGuardUpgradeable",
             "src": "@openzeppelin/contracts-upgradeable/security/ReentrancyGuardUpgradeable.sol:88"
@@ -190,7 +211,8 @@
             "label": "uint8",
             "numberOfBytes": "1"
           }
-        }
+        },
+        "namespaces": {}
       }
     }
   }

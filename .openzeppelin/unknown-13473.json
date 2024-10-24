@@ -1,17 +1,22 @@
 {
   "manifestVersion": "3.2",
   "admin": {
-    "address": "0x022c6a6adfA225f625791CDE23f45Aa811e26469"
+    "address": "0xCB9bD5aCD627e8FcCf9EB8d4ba72AEb1Cd8Ff5EF"
   },
   "proxies": [
     {
-      "address": "0x0E9539455944BE8a307bc43B0a046613a1aD6732",
+      "address": "0x489F56e3144FF03A887305839bBCD20FF767d3d1",
+      "kind": "transparent"
+    },
+    {
+      "address": "0xeAFAF0aC92Fab2B61a7581661877787a2e60F919",
+      "txHash": "0x4ec277331fbe563ecdd9da7d60fe7d68524ac46b1e46cb8f3a6f2133f7425333",
       "kind": "transparent"
     }
   ],
   "impls": {
     "92bd192e6ee5df3769c1bee27b5f831ebc4b457fe1d5ba582dd65279a7eae261": {
-      "address": "0xAa4fd77096922BE5540903C6FD892101Adeb34ce",
+      "address": "0xf93BddE0caE1016b8c89E5A2B32403c1F2212645",
       "layout": {
         "solcVersion": "0.8.19",
         "storage": [

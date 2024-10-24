@@ -1,20 +1,16 @@
 {
   "manifestVersion": "3.2",
-  "admin": {
-    "address": "0x414f85bDF2183789714C05a43cB8f2EF33A493db",
-    "txHash": "0x959d5d38ad0e79425bc8ba221db4f1fb8799b7be67f61f176fe5a5307b8306d9"
-  },
   "proxies": [
     {
-      "address": "0x92B676D4cAF95C07e33866d6e8CB40e65177f88A",
-      "txHash": "0x757d97eac5d9d80f72eb38143988199e8c05caefee371669bf4c4f0fcbf41c4f",
+      "address": "0xCB9bD5aCD627e8FcCf9EB8d4ba72AEb1Cd8Ff5EF",
+      "txHash": "0xf53e0c97b2891b5a169b3fb8e54ec536965045f2c46d7e5f906821224b8909fa",
       "kind": "transparent"
     }
   ],
   "impls": {
-    "7329dffc93be52735b87b506afbb6330774e49236d8a0bf3408f4236802a76fc": {
-      "address": "0xD1Aadc2586E5d204144bED9A313a28Ffe65eba17",
-      "txHash": "0xe877964b9c4a66381ce5940eda626c3783f140127d0658f43e913ffe79973ac6",
+    "35698bf2fa2e4e9af7aeb594d91900748fe9c519149480117bc47b19eb402303": {
+      "address": "0xf93BddE0caE1016b8c89E5A2B32403c1F2212645",
+      "txHash": "0x8288a42aa1d3722037bf2444ed7326c9e19d5acdf87e4cc283cb21580df98c87",
       "layout": {
         "solcVersion": "0.8.19",
         "storage": [
@@ -60,9 +56,25 @@
             "src": "@openzeppelin/contracts-upgradeable/access/OwnableUpgradeable.sol:94"
           },
           {
-            "label": "_status",
+            "label": "_pendingOwner",
             "offset": 0,
             "slot": "101",
+            "type": "t_address",
+            "contract": "Ownable2StepUpgradeable",
+            "src": "@openzeppelin/contracts-upgradeable/access/Ownable2StepUpgradeable.sol:27"
+          },
+          {
+            "label": "__gap",
+            "offset": 0,
+            "slot": "102",
+            "type": "t_array(t_uint256)49_storage",
+            "contract": "Ownable2StepUpgradeable",
+            "src": "@openzeppelin/contracts-upgradeable/access/Ownable2StepUpgradeable.sol:70"
+          },
+          {
+            "label": "_status",
+            "offset": 0,
+            "slot": "151",
             "type": "t_uint256",
             "contract": "ReentrancyGuardUpgradeable",
             "src": "@openzeppelin/contracts-upgradeable/security/ReentrancyGuardUpgradeable.sol:38"
@@ -70,7 +82,7 @@
           {
             "label": "__gap",
             "offset": 0,
-            "slot": "102",
+            "slot": "152",
             "type": "t_array(t_uint256)49_storage",
             "contract": "ReentrancyGuardUpgradeable",
             "src": "@openzeppelin/contracts-upgradeable/security/ReentrancyGuardUpgradeable.sol:88"
@@ -101,7 +113,8 @@
             "label": "uint8",
             "numberOfBytes": "1"
           }
-        }
+        },
+        "namespaces": {}
       }
     }
   }

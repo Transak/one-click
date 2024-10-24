@@ -43,24 +43,59 @@ const config: HardhatUserConfig = {
       accounts: [process.env.PRIVATE_KEY as string],
     },
     sepolia: {
-      url: "https://endpoints.omniatech.io/v1/eth/sepolia/public",
+      url: "https://rpc.sepolia.org",
       accounts: [process.env.PRIVATE_KEY as string],
-
-    }
+    },
+    cronos_mainnet: {
+      url: "https://rpc.ebisusbay.com/",
+      accounts: [process.env.PRIVATE_KEY as string],
+    },
+    chiliz_spicy: {
+      url: "https://spicy-rpc.chiliz.com/",
+      accounts: [process.env.PRIVATE_KEY as string],
+    },
+    chillz_mainnet: {
+      url: "https://rpc.ankr.com/chiliz ",
+      accounts: [process.env.PRIVATE_KEY as string],
+    },
+    base_testnet: {
+      url: "https://base-sepolia-rpc.publicnode.com",
+      accounts: [process.env.PRIVATE_KEY as string],
+    },
+    base_mainnet: {
+      url: "https://base.llamarpc.com",
+      accounts: [process.env.PRIVATE_KEY as string],
+    },
+    ronin_testnet: {
+      url: "https://saigon-testnet.roninchain.com/rpc",
+      accounts: [process.env.PRIVATE_KEY as string],
+    },
+    ronin_mainnet: {
+      url: "https://api.roninchain.com/rpc",
+      // accounts: [
+      //   "",
+      // ],
+      chainId: 2020,
+      gasPrice: 20_000_000_000,
+    },
   },
-  etherscan: {
-    apiKey: process.env.ETHERSCAN_API,
-    customChains: [
-      {
-        network: "imxzkevm",
-        chainId: 13472,
-        urls: {
-          apiURL: "",
-          browserURL: "https://explorer.testnet.immutable.com",
-        },
-      },
-    ],
-  },
+  // etherscan: {
+  //   apiKey: {
+  //     chiliz_spicy: "chiliz_spicy", // apiKey is not required, just set a placeholder
+  //     base: "9S1T4PB5P8ASSVYMS7HJRCARJY4PEIKWU2",
+  //   },
+  //   customChains: [
+  //     {
+  //       network: "chiliz_spicy",
+  //       chainId: 88882,
+  //       urls: {
+  //         apiURL:
+  //           "https://api.routescan.io/v2/network/testnet/evm/88882/etherscan",
+  //         browserURL: "https://testnet.chiliscan.com",
+  //       },
+  //     },
+  //   ],
+  // },
 };
 
 export default config;
