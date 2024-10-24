@@ -1,16 +1,9 @@
-import { ethers, upgrades } from "hardhat";
+import { ethers } from "hardhat";
 
 async function main() {
-  const TransakMulticallExecuter = await ethers.getContractFactory(
-    "TransakMulticallExecuter"
-  );
-
-  const transakMulticallExecuter = await upgrades.deployProxy(
-    TransakMulticallExecuter,
-    {
-      initializer: "initialize",
-      redeployImplementation: "always",
-    }
+  const transakMulticallExecuter = await ethers.deployContract(
+    "TransakMulticallExecuter",
+    []
   );
 
   await transakMulticallExecuter.waitForDeployment();

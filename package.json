@@ -8,9 +8,9 @@
   "scripts": {
     "compile": "hardhat compile",
     "flatten": "hardhat flatten ./contracts/TransakMulticallExecuter.sol > flatten/flattenedTransakMulticallExecuter.sol",
-    "deploy": "hardhat run --network ronin_mainnet scripts/deploy.ts --gasprice 20000000000",
+    "deploy": "hardhat run --network ronin_mainnet scripts/deploy.ts",
     "upgrade": "hardhat run --network ronin_mainnet scripts/upgrade.ts",
-    "verify": "hardhat verify --network ronin_testnet 0x8b83dE7B20059864C479640CC33426935DC5F85b"
+    "verify": "hardhat sourcify --endpoint https://sourcify.roninchain.com/server/ --network ronin_mainnet"
   },
   "devDependencies": {
     "@nomicfoundation/hardhat-chai-matchers": "^2.0.8",

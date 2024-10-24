@@ -72,11 +72,9 @@ const config: HardhatUserConfig = {
     },
     ronin_mainnet: {
       url: "https://api.roninchain.com/rpc",
-      // accounts: [
-      //   "",
-      // ],
-      chainId: 2020,
-      gasPrice: 20_000_000_000,
+      accounts: [process.env.PRIVATE_KEY as string],
+      // chainId: 2020,
+      // gasPrice: 20_000_000_000,
     },
   },
   // etherscan: {

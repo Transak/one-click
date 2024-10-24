@@ -2,9 +2,8 @@
 pragma solidity 0.8.19;
 
 // Importing required OpenZeppelin contracts
-import "@openzeppelin/contracts-upgradeable/access/Ownable2StepUpgradeable.sol";
-import "@openzeppelin/contracts-upgradeable/proxy/utils/Initializable.sol";
-import "@openzeppelin/contracts-upgradeable/security/ReentrancyGuardUpgradeable.sol";
+import "@openzeppelin/contracts/access/Ownable2Step.sol";
+import "@openzeppelin/contracts/security/ReentrancyGuard.sol";
 import "@openzeppelin/contracts/token/ERC721/IERC721Receiver.sol";
 import "@openzeppelin/contracts/token/ERC1155/IERC1155Receiver.sol";
 
@@ -13,13 +12,12 @@ import "@openzeppelin/contracts/token/ERC1155/IERC1155Receiver.sol";
  * @dev This contract allows to execute multiple calls in a single transaction and handles ERC721 and ERC1155 tokens.
  */
 contract TransakMulticallExecuter is
-    Ownable2StepUpgradeable,
-    ReentrancyGuardUpgradeable,
+    Ownable2Step,
+    ReentrancyGuard,
     IERC721Receiver,
     IERC1155Receiver
 {
-
-   // Interface IDs for ERC165, ERC721 and ERC1155
+    // Interface IDs for ERC165, ERC721 and ERC1155
     bytes4 public constant ERC165_INTERFACE_ID = 0x01ffc9a7;
     bytes4 public constant ERC721_TOKENRECEIVER_INTERFACE_ID = 0x150b7a02;
     bytes4 public constant ERC1155_TOKENRECEIVER_INTERFACE_ID = 0x4e2312e0;
@@ -33,19 +31,6 @@ contract TransakMulticallExecuter is
     error CallFailedWithReason(address _target, bytes _data, string _reason);
 
     /**
-     * @dev Initializes the contract by setting up ownership and reentrancy guard
-     */
-    function initialize() public initializer {
-        __Ownable2Step_init();
-        __ReentrancyGuard_init();
-    }
-
-    /// @custom:oz-upgrades-unsafe-allow constructor
-    constructor() {
-        _disableInitializers();
-    }
-
-    /**
      * @dev This function allows the contract to call multiple external contracts in one transaction.
      * @param targets The addresses of the contracts to call.
      * @param data The calldata to pass to each contract.
@@ -57,16 +42,26 @@ contract TransakMulticallExecuter is
         bytes[] calldata data,
         uint256[] calldata value
     ) external payable onlyOwner nonReentrant returns (bytes[] memory) {
-        require(reduce(value) <= msg.value,"msg.value should be greater than sum of value[]");
+        require(
+            reduce(value) <= msg.value,
+            "msg.value should be greater than sum of value[]"
+        );
         require(targets.length != 0, "target length is 0");
         require(targets.length == data.length, "target length != data length");
-        require(targets.length == value.length, "target length != value length");
+        require(
+            targets.length == value.length,
+            "target length != value length"
+        );
 
+        
 
         bytes[] memory results = new bytes[](data.length);
 
         for (uint256 i; i < targets.length; i++) {
-            require(targets[i].code.length > 0 || data[i].length == 0, "target account is not a valid contract.if EOA data must be empty");
+            require(
+                targets[i].code.length > 0 || data[i].length == 0,
+                "target account is not a valid contract.if EOA data must be empty"
+            );
             (bool success, bytes memory result) = targets[i].call{
                 value: value[i]
             }(data[i]);
@@ -75,11 +70,15 @@ contract TransakMulticallExecuter is
                 if (result.length == 0) {
                     revert CallFailed(targets[i], data[i]);
                 }
-                
+
                 assembly {
-                       result := add(result, 0x04)
+                    result := add(result, 0x04)
                 }
-                revert CallFailedWithReason(targets[i], data[i],abi.decode(result,(string)));
+                revert CallFailedWithReason(
+                    targets[i],
+                    data[i],
+                    abi.decode(result, (string))
+                );
             }
             results[i] = result;
         }
