@@ -8,9 +8,9 @@
   "scripts": {
     "compile": "hardhat compile",
     "flatten": "hardhat flatten ./contracts/TransakMulticallExecuter.sol > flatten/flattenedTransakMulticallExecuter.sol",
-    "deploy": "hardhat run --network optimism_sepolia scripts/deploy.ts",
-    "upgrade": "hardhat run --network optimism_sepolia scripts/upgrade.ts",
-    "verify": "hardhat verify --network optimism_sepolia 0xCB9bD5aCD627e8FcCf9EB8d4ba72AEb1Cd8Ff5EF"
+    "deploy": "hardhat run --network cronos scripts/deploy.ts",
+    "upgrade": "hardhat run --network cronos scripts/upgrade.ts",
+    "verify": "hardhat verify --network cronos 0xAb88cd272863b197B48762EA283f24a13f6586Dd"
   },
   "devDependencies": {
     "@nomicfoundation/hardhat-chai-matchers": "^2.0.0",

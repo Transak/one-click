@@ -45,6 +45,14 @@ const config: HardhatUserConfig = {
       url: "https://rpc.sepolia.org",
       accounts: [process.env.PRIVATE_KEY as string],
     },
+    cronos: {
+      url: "https://cronos-evm-rpc.publicnode.com",
+      accounts: [process.env.PRIVATE_KEY as string],
+    },
+    cronosTestnet: {
+      url: "https://endpoints.omniatech.io/v1/cronos/testnet/public",
+      accounts: [process.env.PRIVATE_KEY as string],
+    },
   },
   etherscan: {
     apiKey: process.env.ETHERSCAN_API,
@@ -77,8 +85,8 @@ const config: HardhatUserConfig = {
         network: "cronosTestnet",
         chainId: 338,
         urls: {
-          apiURL: "https://cronos.org/explorer/testnet3/api",
-          browserURL: "https://cronos.org/explorer/testnet3/",
+          apiURL: "https://api.cronoscan.com/api",
+          browserURL: "https://explorer.cronos.org/testnet",
         },
       },
     ],
