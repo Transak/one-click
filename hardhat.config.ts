@@ -30,8 +30,8 @@ const config: HardhatUserConfig = {
       url: "https://sepolia-rollup.arbitrum.io/rpc",
       accounts: [process.env.PRIVATE_KEY as string],
     },
-    optimism_goerli: {
-      url: "https://optimism-goerli.publicnode.com",
+    optimism_sepolia: {
+      url: "https://sepolia.optimism.io",
       accounts: [process.env.PRIVATE_KEY as string],
     },
     eth_mainnet: {
@@ -51,6 +51,14 @@ const config: HardhatUserConfig = {
   etherscan: {
     apiKey: process.env.ETHERSCAN_API,
     customChains: [
+      {
+        network: "optimismSepolia",
+        chainId: 11155420,
+        urls: {
+          apiURL: "https://api-sepolia-optimistic.etherscan.io/api",
+          browserURL: "https://sepolia-optimism.etherscan.io/"
+        }
+      },
       {
         network: "imxzkevm",
         chainId: 13472,
