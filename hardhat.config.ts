@@ -11,8 +11,7 @@ const config: HardhatUserConfig = {
     imxzkevm: {
       url: "https://rpc.testnet.immutable.com",
       accounts: [process.env.PRIVATE_KEY as string],
-      gasPrice: 100000000000 ,
-      
+      gasPrice: 100000000000,
     },
     goerli: {
       url: process.env.RPC_GOERLI,
@@ -45,8 +44,7 @@ const config: HardhatUserConfig = {
     sepolia: {
       url: "https://rpc.sepolia.org",
       accounts: [process.env.PRIVATE_KEY as string],
-
-    }
+    },
   },
   etherscan: {
     apiKey: process.env.ETHERSCAN_API,
@@ -56,8 +54,8 @@ const config: HardhatUserConfig = {
         chainId: 11155420,
         urls: {
           apiURL: "https://api-sepolia-optimistic.etherscan.io/api",
-          browserURL: "https://sepolia-optimism.etherscan.io/"
-        }
+          browserURL: "https://sepolia-optimism.etherscan.io/",
+        },
       },
       {
         network: "imxzkevm",
@@ -65,6 +63,22 @@ const config: HardhatUserConfig = {
         urls: {
           apiURL: "",
           browserURL: "https://explorer.testnet.immutable.com",
+        },
+      },
+      {
+        network: "cronos",
+        chainId: 25,
+        urls: {
+          apiURL: "https://api.cronoscan.com/api",
+          browserURL: "https://cronoscan.com/",
+        },
+      },
+      {
+        network: "cronosTestnet",
+        chainId: 338,
+        urls: {
+          apiURL: "https://cronos.org/explorer/testnet3/api",
+          browserURL: "https://cronos.org/explorer/testnet3/",
         },
       },
     ],
